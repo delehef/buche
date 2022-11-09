@@ -354,12 +354,12 @@ impl Log for StdErrLog {
             Timestamp::Off => {}
         }
         if self.show_level {
-            let _ = write!(writer, "{} - ", record.level());
+            let _ = write!(writer, "{} ", record.level());
         }
-        let _ = writeln!(writer, "{}", record.args());
         {
             writer.get_mut().reset().expect("failed to reset the color");
         }
+        let _ = writeln!(writer, "{}", record.args());
     }
 
     fn flush(&self) {
