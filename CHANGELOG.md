@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2023-01-10
+
+### Miscellaneous Tasks
+
+- Add nix file
+
 ## [0.6.0-rc] - 2023-01-10
 
 ### Documentation
@@ -11,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Miscellaneous Tasks
 
 - Initial fork from stderrlog-rs
+- Release buche version 0.6.0-rc
 
 ### Cargo
 
