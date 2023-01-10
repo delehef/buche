@@ -2,7 +2,7 @@ use log::*;
 
 #[test]
 fn trace_level() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .verbosity(4)
         .init()

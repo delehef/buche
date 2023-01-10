@@ -1,10 +1,10 @@
+use buche::Buche;
 use log::{self, Log};
 use std::cell::RefCell;
 use std::sync;
-use stderrlog::StdErrLog;
 
 thread_local! {
-    pub static LOGGER_INSTANCE: RefCell<Option<StdErrLog>> = RefCell::new(None);
+    pub static LOGGER_INSTANCE: RefCell<Option<Buche>> = RefCell::new(None);
 }
 
 static INIT_LOGGER: sync::Once = sync::Once::new();
@@ -49,7 +49,7 @@ pub fn init() {
     });
 }
 
-pub fn set_logger(logger: StdErrLog) {
+pub fn set_logger(logger: Buche) {
     LOGGER_INSTANCE.with(|instance| {
         let mut instance = instance.borrow_mut();
         *instance = Some(logger);

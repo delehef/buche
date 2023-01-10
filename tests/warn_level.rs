@@ -2,7 +2,7 @@ use log::*;
 
 #[test]
 fn warn_level() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .verbosity(1)
         .init()

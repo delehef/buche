@@ -6,7 +6,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![doc(html_root_url = "https://docs.rs/stderrlog/0.6.0")]
+#![doc(html_root_url = "https://docs.rs/buche/0.6.0")]
 
 //! A simple logger to provide semantics similar to what is expected
 //! of most UNIX utilities by logging to stderr and the higher the
@@ -20,7 +20,7 @@
 //! use log::*;
 //!
 //! fn main() {
-//!     stderrlog::new().module(module_path!()).init().unwrap();
+//!     buche::new().module(module_path!()).init().unwrap();
 //!
 //!     error!("some failure");
 //!
@@ -46,17 +46,17 @@
 //!     verbose: usize,
 //!     /// Timestamp (sec, ms, ns, none)
 //!     #[structopt(short = "t", long = "timestamp")]
-//!     ts: Option<stderrlog::Timestamp>,
+//!     ts: Option<buche::Timestamp>,
 //! }
 //!
 //! fn main() {
 //!     let opt = Opt::from_args();
 //!
-//!     stderrlog::new()
+//!     buche::new()
 //!         .module(module_path!())
 //!         .quiet(opt.quiet)
 //!         .verbosity(opt.verbose)
-//!         .timestamp(opt.ts.unwrap_or(stderrlog::Timestamp::Off))
+//!         .timestamp(opt.ts.unwrap_or(buche::Timestamp::Off))
 //!         .init()
 //!         .unwrap();
 //!     trace!("trace message");
@@ -89,10 +89,10 @@
 //!                             .and_then(|d| d.deserialize())
 //!                             .unwrap_or_else(|e| e.exit());
 //!
-//!     stderrlog::new()
+//!     buche::new()
 //!             .module(module_path!())
 //!             .quiet(args.flag_q)
-//!             .timestamp(stderrlog::Timestamp::Second)
+//!             .timestamp(buche::Timestamp::Second)
 //!             .verbosity(args.flag_v)
 //!             .init()
 //!             .unwrap();
@@ -114,7 +114,7 @@
 //! use std::str::FromStr;
 //!
 //! fn main() {
-//!     let m = App::new("stderrlog example")
+//!     let m = App::new("buche example")
 //!         .version(crate_version!())
 //!         .arg(Arg::with_name("verbosity")
 //!              .short('v')
@@ -134,12 +134,12 @@
 //!     let verbose = m.occurrences_of("verbosity") as usize;
 //!     let quiet = m.is_present("quiet");
 //!     let ts = m.value_of("timestamp").map(|v| {
-//!         stderrlog::Timestamp::from_str(v).unwrap_or_else(|_| {
+//!         buche::Timestamp::from_str(v).unwrap_or_else(|_| {
 //!             clap::Error::raw(clap::ErrorKind::InvalidValue, "invalid value for 'timestamp'").exit()
 //!         })
-//!     }).unwrap_or(stderrlog::Timestamp::Off);
+//!     }).unwrap_or(buche::Timestamp::Off);
 //!
-//!     stderrlog::new()
+//!     buche::new()
 //!         .module(module_path!())
 //!         .quiet(quiet)
 //!         .verbosity(verbose)
@@ -156,12 +156,12 @@
 //!
 //! ### `log` Compatibility
 //!
-//! The 0.5.x versions of `stderrlog` aim to provide compatibility with
+//! The 0.5.x versions of `buche` aim to provide compatibility with
 //! applications using `log` >= 0.4.11.
 //!
 //! ### Rust Compatibility
 //!
-//! `stderrlog` is serious about backwards compat. `stderrlog`
+//! `buche` is serious about backwards compat. `buche`
 //! pins the minimum required version of Rust in the CI build.
 //! Bumping the minimum version of Rust is a minor breaking
 //! change and requires a minor version to be bumped.
@@ -170,14 +170,14 @@
 //!
 //! ### Module Level Logging
 //!
-//! `stderrlog` has the ability to limit the components which can log.
+//! `buche` has the ability to limit the components which can log.
 //! Many crates use [log](https://docs.rs/log/*/log/) but you may not
 //! want their output in your application. For example
 //! [hyper](https://docs.rs/hyper/*/hyper/) makes heavy use of log but
 //! when your application receives `-vvvvv` to enable the `trace!()`
 //! messages you don't want the output of `hyper`'s `trace!()` level.
 //!
-//! To support this `stderrlog` includes a `module()` method allowing
+//! To support this `buche` includes a `module()` method allowing
 //! you to specify the modules that are allowed to log. The examples
 //! above use the `module_path!()` macro to enable logging only for
 //! the binary itself but none of its dependencies. To enable logging
@@ -189,7 +189,7 @@
 //!
 //! For a good example of how the module level logging works see the
 //! [large-example
-//! crate](https://github.com/cardoe/stderrlog-rs/tree/master/examples/large-example)
+//! crate](https://github.com/delehef/buche/tree/master/examples/large-example)
 //! under examples, you'll want to run the
 //! following binaries to see all the examples:
 //!
@@ -199,7 +199,7 @@
 //!
 //! ### Features
 //!
-//! `stderrlog` has the following default crate features, which can be disabled
+//! `buche` has the following default crate features, which can be disabled
 //! to reduce the number of dependencies:
 //!
 //! - `timestamps`: Provides support for log timestamp prefixes (uses the `chrono` crate).
@@ -260,7 +260,7 @@ impl FromStr for Timestamp {
 }
 
 /// Data specific to this logger
-pub struct StdErrLog {
+pub struct Buche {
     verbosity: LevelFilter,
     quiet: bool,
     show_level: bool,
@@ -272,9 +272,9 @@ pub struct StdErrLog {
     show_module_names: bool,
 }
 
-impl fmt::Debug for StdErrLog {
+impl fmt::Debug for Buche {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut builder = f.debug_struct("StdErrLog");
+        let mut builder = f.debug_struct("Buche");
         builder
             .field("verbosity", &self.verbosity)
             .field("quiet", &self.quiet)
@@ -290,9 +290,9 @@ impl fmt::Debug for StdErrLog {
     }
 }
 
-impl Clone for StdErrLog {
-    fn clone(&self) -> StdErrLog {
-        StdErrLog {
+impl Clone for Buche {
+    fn clone(&self) -> Buche {
+        Buche {
             modules: self.modules.clone(),
             writer: ThreadLocal::new(),
             ..*self
@@ -300,7 +300,7 @@ impl Clone for StdErrLog {
     }
 }
 
-impl Log for StdErrLog {
+impl Log for Buche {
     fn enabled(&self, metadata: &Metadata) -> bool {
         metadata.level() <= self.log_level_filter() && self.includes_module(metadata.target())
     }
@@ -318,10 +318,10 @@ impl Log for StdErrLog {
         let mut writer = io::LineWriter::new(writer.lock());
         let color = match record.metadata().level() {
             Level::Error => Color::Red,
-            Level::Warn => Color::Magenta,
-            Level::Info => Color::Yellow,
+            Level::Warn => Color::Yellow,
+            Level::Info => Color::Blue,
             Level::Debug => Color::Cyan,
-            Level::Trace => Color::Blue,
+            Level::Trace => Color::White,
         };
         {
             writer
@@ -354,12 +354,11 @@ impl Log for StdErrLog {
             Timestamp::Off => {}
         }
         if self.show_level {
-            let _ = write!(writer, "{} ", record.level());
+            let _ = write!(writer, "[{}]", record.level());
         }
-        {
-            writer.get_mut().reset().expect("failed to reset the color");
-        }
-        let _ = writeln!(writer, "{}", record.args());
+        writer.flush().expect("failed to flush");
+        writer.get_mut().reset().expect("failed to reset the color");
+        let _ = writeln!(writer, " {}", record.args());
     }
 
     fn flush(&self) {
@@ -417,10 +416,10 @@ impl From<LevelFilter> for LogLevelNum {
     }
 }
 
-impl StdErrLog {
+impl Buche {
     /// creates a new stderr logger
-    pub fn new() -> StdErrLog {
-        StdErrLog {
+    pub fn new() -> Buche {
+        Buche {
             verbosity: LevelFilter::Error,
             quiet: false,
             show_level: true,
@@ -447,7 +446,7 @@ impl StdErrLog {
     /// 2 -> Info
     /// 3 -> Debug
     /// 4 or higher -> Trace
-    pub fn verbosity<V: Into<LogLevelNum>>(&mut self, verbosity: V) -> &mut StdErrLog {
+    pub fn verbosity<V: Into<LogLevelNum>>(&mut self, verbosity: V) -> &mut Buche {
         self.verbosity = match verbosity.into() {
             LogLevelNum::Off => LevelFilter::Off,
             LogLevelNum::Error => LevelFilter::Error,
@@ -460,42 +459,42 @@ impl StdErrLog {
     }
 
     /// silence all output, no matter the value of verbosity
-    pub fn quiet(&mut self, quiet: bool) -> &mut StdErrLog {
+    pub fn quiet(&mut self, quiet: bool) -> &mut Buche {
         self.quiet = quiet;
         self
     }
 
     /// Enables or disables the use of levels in log messages (default is true)
-    pub fn show_level(&mut self, levels: bool) -> &mut StdErrLog {
+    pub fn show_level(&mut self, levels: bool) -> &mut Buche {
         self.show_level = levels;
         self
     }
 
     /// Enables or disables the use of timestamps in log messages
     #[cfg(feature = "timestamps")]
-    pub fn timestamp(&mut self, timestamp: Timestamp) -> &mut StdErrLog {
+    pub fn timestamp(&mut self, timestamp: Timestamp) -> &mut Buche {
         self.timestamp = timestamp;
         self
     }
 
     /// Enables or disables the use of color in log messages
-    pub fn color(&mut self, choice: ColorChoice) -> &mut StdErrLog {
+    pub fn color(&mut self, choice: ColorChoice) -> &mut Buche {
         self.color_choice = choice;
         self
     }
 
     /// specify a module to allow to log to stderr
-    pub fn module<T: Into<String>>(&mut self, module: T) -> &mut StdErrLog {
+    pub fn module<T: Into<String>>(&mut self, module: T) -> &mut Buche {
         self._module(module.into())
     }
 
     /// Enables or disables the use of module names in log messages
-    pub fn show_module_names(&mut self, show_module_names: bool) -> &mut StdErrLog {
+    pub fn show_module_names(&mut self, show_module_names: bool) -> &mut Buche {
         self.show_module_names = show_module_names;
         self
     }
 
-    fn _module(&mut self, module: String) -> &mut StdErrLog {
+    fn _module(&mut self, module: String) -> &mut Buche {
         // If Ok, the module was already found
         if let Err(i) = self.modules.binary_search(&module) {
             // If a super-module of the current module already exists, don't insert this module
@@ -516,7 +515,7 @@ impl StdErrLog {
     pub fn modules<T: Into<String>, I: IntoIterator<Item = T>>(
         &mut self,
         modules: I,
-    ) -> &mut StdErrLog {
+    ) -> &mut Buche {
         for module in modules {
             self.module(module);
         }
@@ -576,15 +575,15 @@ impl StdErrLog {
     }
 }
 
-impl Default for StdErrLog {
+impl Default for Buche {
     fn default() -> Self {
-        StdErrLog::new()
+        Buche::new()
     }
 }
 
 /// creates a new stderr logger
-pub fn new() -> StdErrLog {
-    StdErrLog::new()
+pub fn new() -> Buche {
+    Buche::new()
 }
 
 fn is_submodule(parent: &str, possible_child: &str) -> bool {
@@ -611,7 +610,7 @@ fn is_submodule(parent: &str, possible_child: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{is_submodule, StdErrLog};
+    use super::{is_submodule, Buche};
 
     #[test]
     fn submodule() {
@@ -634,13 +633,13 @@ mod tests {
 
     #[test]
     fn modules_display_all() {
-        let logger = StdErrLog::new();
+        let logger = Buche::new();
         assert!(logger.includes_module("good"));
     }
 
     #[test]
     fn modules_display_exact_match() {
-        let mut logger = StdErrLog::new();
+        let mut logger = Buche::new();
         logger.module("good");
         assert!(logger.includes_module("good"));
         assert!(!logger.includes_module("bad"));
@@ -648,7 +647,7 @@ mod tests {
 
     #[test]
     fn modules_display_module() {
-        let mut logger = StdErrLog::new();
+        let mut logger = Buche::new();
         logger.module("good");
         assert!(logger.includes_module("good::foo"));
         assert!(logger.includes_module("good::bar"));
@@ -658,7 +657,7 @@ mod tests {
 
     #[test]
     fn modules_display_submodule() {
-        let mut logger = StdErrLog::new();
+        let mut logger = Buche::new();
         logger.module("good::foo");
         assert!(logger.includes_module("good::foo"));
         assert!(!logger.includes_module("good::bar"));

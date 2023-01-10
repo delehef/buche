@@ -21,17 +21,17 @@ struct Opt {
     verbose: usize,
     /// Timestamp (sec, ms, us, ns, none)
     #[structopt(short = "t", long = "timestamp")]
-    ts: Option<stderrlog::Timestamp>,
+    ts: Option<buche::Timestamp>,
 }
 
 fn main() {
     let opt = Opt::from_args();
 
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .quiet(opt.quiet)
         .verbosity(opt.verbose)
-        .timestamp(opt.ts.unwrap_or(stderrlog::Timestamp::Off))
+        .timestamp(opt.ts.unwrap_or(buche::Timestamp::Off))
         .init()
         .unwrap();
 

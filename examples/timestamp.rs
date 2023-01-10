@@ -2,7 +2,7 @@ use clap::{crate_version, App, Arg};
 use log::*;
 
 fn main() {
-    let m = App::new("stderrlog example")
+    let m = App::new("buche example")
         .version(crate_version!())
         .arg(
             Arg::with_name("verbosity")
@@ -27,11 +27,11 @@ fn main() {
     let verbose = m.occurrences_of("verbosity") as usize;
     let quiet = m.is_present("quiet");
     let ts = match m.value_of("timestamp") {
-        Some("ns") => stderrlog::Timestamp::Nanosecond,
-        Some("ms") => stderrlog::Timestamp::Millisecond,
-        Some("us") => stderrlog::Timestamp::Microsecond,
-        Some("sec") => stderrlog::Timestamp::Second,
-        Some("none") | None => stderrlog::Timestamp::Off,
+        Some("ns") => buche::Timestamp::Nanosecond,
+        Some("ms") => buche::Timestamp::Millisecond,
+        Some("us") => buche::Timestamp::Microsecond,
+        Some("sec") => buche::Timestamp::Second,
+        Some("none") | None => buche::Timestamp::Off,
         Some(_) => clap::Error::raw(
             clap::ErrorKind::InvalidValue,
             "invalid value for 'timestamp'",
@@ -39,7 +39,7 @@ fn main() {
         .exit(),
     };
 
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .quiet(quiet)
         .verbosity(verbose)

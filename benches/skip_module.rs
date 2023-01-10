@@ -13,8 +13,8 @@ fn init_logger() {
         for i in 0..10_000 {
             other_modules.push(format!("other::mod{}", i));
         }
-        stderrlog::StdErrLog::new()
-            .timestamp(stderrlog::Timestamp::Second)
+        buche::Buche::new()
+            .timestamp(buche::Timestamp::Second)
             .verbosity(10)
             .modules(other_modules)
             .init()

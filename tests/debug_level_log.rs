@@ -2,9 +2,9 @@ use log::*;
 
 #[test]
 fn debug_level_log() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
-        .timestamp(stderrlog::Timestamp::Nanosecond)
+        .timestamp(buche::Timestamp::Nanosecond)
         .verbosity(log::Level::Debug)
         .init()
         .unwrap();

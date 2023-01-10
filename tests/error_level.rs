@@ -2,9 +2,9 @@ use log::*;
 
 #[test]
 fn error_level() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
-        .timestamp(stderrlog::Timestamp::Millisecond)
+        .timestamp(buche::Timestamp::Millisecond)
         .verbosity(0)
         .init()
         .unwrap();

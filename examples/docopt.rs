@@ -27,7 +27,7 @@ fn main() {
         .and_then(|d| d.argv(env::args().into_iter()).deserialize())
         .unwrap_or_else(|e| e.exit());
 
-    stderrlog::new()
+    buche::new()
         .verbosity(args.flag_v)
         .quiet(args.flag_q)
         .init()

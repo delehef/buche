@@ -2,9 +2,9 @@ use log::*;
 
 #[test]
 fn info_level() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
-        .timestamp(stderrlog::Timestamp::Microsecond)
+        .timestamp(buche::Timestamp::Microsecond)
         .verbosity(2)
         .init()
         .unwrap();

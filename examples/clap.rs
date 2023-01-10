@@ -11,7 +11,7 @@ use log::*;
 use std::str::FromStr;
 
 fn main() {
-    let m = App::new("stderrlog example")
+    let m = App::new("buche example")
         .version(crate_version!())
         .arg(
             Arg::with_name("verbosity")
@@ -38,7 +38,7 @@ fn main() {
     let ts = m
         .value_of("timestamp")
         .map(|v| {
-            stderrlog::Timestamp::from_str(v).unwrap_or_else(|_| {
+            buche::Timestamp::from_str(v).unwrap_or_else(|_| {
                 clap::Error::raw(
                     clap::ErrorKind::InvalidValue,
                     "invalid value for 'timestamp'",
@@ -46,9 +46,9 @@ fn main() {
                 .exit()
             })
         })
-        .unwrap_or(stderrlog::Timestamp::Off);
+        .unwrap_or(buche::Timestamp::Off);
 
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .quiet(quiet)
         .verbosity(verbose)

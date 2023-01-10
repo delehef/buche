@@ -14,8 +14,8 @@ fn init_logger() {
             other_modules.push(format!("other::mod{}", i));
         }
         other_modules.push(format!("{}::common", module_path!()));
-        stderrlog::StdErrLog::new()
-            .timestamp(stderrlog::Timestamp::Second)
+        buche::Buche::new()
+            .timestamp(buche::Timestamp::Second)
             .verbosity(10)
             .modules(other_modules)
             .init()

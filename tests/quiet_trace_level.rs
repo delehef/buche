@@ -2,9 +2,9 @@ use log::*;
 
 #[test]
 fn quiet_trace_level() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
-        .timestamp(stderrlog::Timestamp::Second)
+        .timestamp(buche::Timestamp::Second)
         .verbosity(4)
         .quiet(true)
         .init()

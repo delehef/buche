@@ -9,8 +9,8 @@ static INIT_LOGGER: sync::Once = sync::ONCE_INIT;
 
 fn init_logger() {
     INIT_LOGGER.call_once(|| {
-        stderrlog::StdErrLog::new()
-            .timestamp(stderrlog::Timestamp::Second)
+        buche::Buche::new()
+            .timestamp(buche::Timestamp::Second)
             .verbosity(10)
             .module(module_path!())
             .init()

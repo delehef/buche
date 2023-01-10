@@ -2,7 +2,7 @@ use log::*;
 
 #[test]
 fn no_levels_output() {
-    stderrlog::new()
+    buche::new()
         .module(module_path!())
         .verbosity(4)
         .show_level(false)
